@@ -1,3 +1,8 @@
+load(
+    "@pypi//:requirements.bzl",
+    "requirement",
+)
+
 # This rule shows that `fusesoc` is indeed installed and working.
 genrule(
     name = "test",
@@ -5,6 +10,7 @@ genrule(
     outs = [ "fusesoc.txt" ],
     tools = [
         "@rules_fusesoc//third_party/fusesoc:fusesoc",
+        requirement("fusesoc"),
     ],
     cmd = "$(location @rules_fusesoc//third_party/fusesoc:fusesoc) --help > $@",
 )

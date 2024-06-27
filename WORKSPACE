@@ -61,6 +61,7 @@ http_archive(
     name = "rules_python",
     strip_prefix = "rules_python-{}".format(rules_python_version),
     url = "https://github.com/bazelbuild/rules_python/archive/{}.zip".format(rules_python_version),
+    integrity = "sha256-BMlHfnwFPkJgyVJZwLLnSj8PfjuOhvkrHwt90qQty5E=",
 )
 
 load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_toolchains")
