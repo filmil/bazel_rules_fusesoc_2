@@ -1,4 +1,4 @@
-# Bazel rules for fusesoc (EDA automation)
+# Bazel rules for fusesoc (EDA automation) [![Test status](https://github.com/filmil/bazel_rules_fusesoc_2/workflows/Test/badge.svg)](https://github.com/filmil/bazel_rules_fusesoc_2/workflows/Test/badge.svg)
 
 ## Maintenance
 
