@@ -15,3 +15,9 @@ bazel run //third_party/fusesoc -- --help
 ```
 bazel run //third_party/fusesoc:requirements.update
 ```
+
+### Example use in a repository
+
+```
+cd integration && bazel build //...
+```
