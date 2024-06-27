@@ -1,0 +1,10 @@
+# This rule shows that `fusesoc` is indeed installed and working.
+genrule(
+    name = "test",
+    srcs = [ ],
+    outs = [ "fusesoc.txt" ],
+    tools = [
+        "@rules_fusesoc//third_party/fusesoc:fusesoc",
+    ],
+    cmd = "$(location @rules_fusesoc//third_party/fusesoc:fusesoc) --help > $@",
+)

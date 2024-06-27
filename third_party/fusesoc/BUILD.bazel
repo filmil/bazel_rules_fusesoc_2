@@ -1,0 +1,27 @@
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
+load("@rules_python//python:defs.bzl", "py_binary")
+load(
+    "@pypi//:requirements.bzl",
+    "requirement",
+    "data_requirement",
+    "dist_info_requirement",
+)
+
+compile_pip_requirements(
+    name = "requirements",
+    extra_args = ["--allow-unsafe", "--resolver=backtracking"],
+    requirements_in = "requirements.in",
+    requirements_txt = "requirements_lock.txt",
+    # The requirements generator is broken, as it depends on system python even
+    # if a hermetic python installation is used.
+    tags = ["manual"],
+)
+
+py_binary(
+    name = "fusesoc",
+    srcs = [ "fusesoc.py" ],
+    deps = [
+        requirement("fusesoc"),
+    ],
+    visibility = [ "//visibility:public" ],
+)
