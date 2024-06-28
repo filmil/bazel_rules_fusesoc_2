@@ -9,8 +9,8 @@ genrule(
     srcs = [ ],
     outs = [ "fusesoc.txt" ],
     tools = [
-        "@rules_fusesoc//third_party/fusesoc:fusesoc",
+        "@rules_fusesoc//third_party/fusesoc:run_fusesoc",
         requirement("fusesoc"),
     ],
-    cmd = "$(location @rules_fusesoc//third_party/fusesoc:fusesoc) --help > $@",
+    cmd = "$(location @rules_fusesoc//third_party/fusesoc:run_fusesoc) --help > $@",
 )
