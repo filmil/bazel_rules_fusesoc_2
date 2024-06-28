@@ -16,8 +16,11 @@ compile_pip_requirements(
 )
 
 py_binary(
-    name = "fusesoc",
-    srcs = [ "fusesoc.py" ],
+    # This target may not be named `fusesoc` since it will conflict with the
+    # `fusesoc` library in `deps`. This works locally for some reason, but
+    # fails in github actions.
+    name = "run_fusesoc",
+    srcs = [ "run_fusesoc.py" ],
     deps = [
         requirement("fusesoc"),
     ],
