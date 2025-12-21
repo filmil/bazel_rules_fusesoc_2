@@ -1,6 +1,24 @@
-###############################################################################
-# Bazel now uses Bzlmod by default to manage external dependencies.
-# Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
-#
-# For more details, please check https://github.com/bazelbuild/bazel/issues/18958
-###############################################################################
+module(name = "integration", version="0.0.0")
+
+
+bazel_dep(name = "rules_fusesoc", version = "0.0.0")
+local_path_override(
+  module_name = "rules_fusesoc",
+  path = "../",
+)
+
+
+bazel_dep(name = "rules_python", version = "1.6.3")
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "i_pypi",
+    requirements_lock = "@rules_fusesoc//third_party/fusesoc:requirements_lock.txt",
+    python_version = "3.11",
+)
+use_repo(pip, "i_pypi")
+
+
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.defaults(python_version = "3.11")
+python.toolchain(python_version = "3.11")
+
