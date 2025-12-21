@@ -17,10 +17,12 @@ jobs:
       - name: Setup bazel
         uses: abhinavsingh/setup-bazel@v3
         with:
-          version: 7.2.0
+          version: 7.4.1
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build
         # This is a test.
+        run: "bazel build //..."
+      - name: Integration test
         run: "cd integration && bazel build //... && cat bazel-bin/fusesoc.txt"
 
