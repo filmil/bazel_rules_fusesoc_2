@@ -1,5 +1,5 @@
 load(
-    "@pypi//:requirements.bzl",
+    "@i_pypi//:requirements.bzl",
     "requirement",
 )
 
