@@ -3,4 +3,3 @@ common --registry=https://bcr.bazel.build
 common --enable_workspace
 
 try-import %workspace%/user.bazelrc
-
