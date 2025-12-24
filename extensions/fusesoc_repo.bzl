@@ -9,7 +9,24 @@ def _impl(rctx):
     fusesoc_path = "./bin/fusesoc.shar"
 
     rctx.file("BUILD.bazel", content = """\
+package(default_visibility = ["//visibility:public"])
+
 exports_files(["build/**"])
+
+filegroup(
+    name = "config",
+    srcs = [
+        "fusesoc.conf",
+    ],
+)
+
+filegroup(
+    name = "libraries",
+    srcs = glob(
+        ["fusesoc_libraries/**"],
+        exclude = [ "**/.git/**"],
+    ),
+)
 
 filegroup(
     name = "all",
