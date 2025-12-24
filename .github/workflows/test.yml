@@ -26,5 +26,5 @@ jobs:
         # This is a test.
         run: "bazel build //..."
       - name: Integration test
-        run: "cd integration && bazel build //... && cat bazel-bin/fusesoc.txt"
+        run: "cd integration && bazel build @fusesoc_cores//... && bazel build //... && cat bazel-bin/fusesoc.txt"
 
