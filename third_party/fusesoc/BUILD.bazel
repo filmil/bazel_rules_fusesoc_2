@@ -1,3 +1,5 @@
+load("//build:my_package_name.bzl", "name_part_from_command_line")
+load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
 load("@rules_python//python:pip.bzl", "compile_pip_requirements")
 load("@rules_python//python:defs.bzl", "py_binary")
 load(
@@ -37,4 +39,19 @@ sh_binary(
         "@rules_python//python/bin:python",
         ":run_fusesoc",
     ],
+)
+
+name_part_from_command_line(
+    name = "name_part_from_command_line",
+    build_setting_default = "@set_me@",
+)
+
+pkg_zip(
+    name = "zip",
+    srcs = [
+        ":fusesoc_shar",
+    ],
+    package_dir = "fusesoc/bin",
+    package_file_name = "fusesoc-bin-{name_part}.zip",
+    package_variables = ":name_part_from_command_line",
 )
