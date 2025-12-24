@@ -1,0 +1,1 @@
+exports_files(["fusesoc_cores.bzl", "fusesoc_repo.bzl"])
