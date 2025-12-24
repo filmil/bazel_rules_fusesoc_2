@@ -271,8 +271,8 @@
   "moduleExtensions": {
     "@@rules_fusesoc+//extensions:fusesoc_cores.bzl%fusesoc_cores": {
       "general": {
-        "bzlTransitiveDigest": "v3vY77+v5BK9Tq9FkaMBUpO2yY2blHYijQUA+fZmlF8=",
-        "usagesDigest": "Ak4f7KRSMN3SIaAsV2nycD/S3d7k3d0GMNbiLdrSOtA=",
+        "bzlTransitiveDigest": "Z7qWZ+NLFWTRFo2JJGH/4/29zlHNvN8qL30/n5Qpqy8=",
+        "usagesDigest": "euaENtXghpGUY7Bjq1wQ/EwHyO+/oE/Sq4AoTlbUeRI=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -281,7 +281,7 @@
             "repoRuleId": "@@rules_fusesoc+//extensions:fusesoc_repo.bzl%fusesoc_repo",
             "attributes": {
               "libraries": {
-                "https://github.com/fusesoc/fusesoc-cores": "cores"
+                "https://github.com/fusesoc/fusesoc-cores": "fusesoc-cores"
               },
               "cores": [
                 "blinky"

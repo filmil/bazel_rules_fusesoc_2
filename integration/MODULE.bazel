@@ -10,7 +10,7 @@ fusesoc_cores = use_extension(
   "@rules_fusesoc//extensions:fusesoc_cores.bzl",
   "fusesoc_cores")
 fusesoc_cores.library(
-  name = "cores",
+  name = "fusesoc-cores",
   url = "https://github.com/fusesoc/fusesoc-cores",
 )
 fusesoc_cores.core(
