@@ -26,6 +26,8 @@ py_binary(
     srcs = [ "run_fusesoc.py" ],
     deps = [
         requirement("fusesoc"),
+        requirement("edalize"),
+        requirement("mako"),
     ],
     visibility = [ "//visibility:public" ],
 )
