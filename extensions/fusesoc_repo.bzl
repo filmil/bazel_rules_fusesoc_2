@@ -12,7 +12,7 @@ def _impl(rctx):
 
     cmdline = [
         str(fusesoc_path),
-        "--cores-root={}".format(pwd),
+        #"--cores-root={}".format(pwd),
         "--config={}/fusesoc.conf".format(pwd),
     ]
 
