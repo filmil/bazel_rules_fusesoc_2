@@ -20,9 +20,10 @@ fusesoc_cores.library(
   name = "muntjac",
   url = "https://github.com/filmil/muntjac",
 )
-fusesoc_cores.core(
-  name = "lowrisc:muntjac:core",
-)
+# TODO(filmil): re-enable.
+#fusesoc_cores.core(
+  #name = "lowrisc:muntjac:core",
+#)
 use_repo(fusesoc_cores, "fusesoc_cores")
 
 

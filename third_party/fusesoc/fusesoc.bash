@@ -25,6 +25,7 @@ set -ueo pipefail
 
 readonly _interp="$(rlocation rules_python/python/bin/python3)"
 readonly _script="$(rlocation _main/third_party/fusesoc/run_fusesoc.py)"
+readonly _interp_dir="${_interp%/python3}"
 
 paths_list=""
 for dir in $(ls -d ../rules_python++*/site-packages); do
@@ -32,7 +33,9 @@ for dir in $(ls -d ../rules_python++*/site-packages); do
 done
 
 cd "${ORIG_PWD}"
-env PYTHONPATH=${paths_list} \
+env \
+  PYTHONPATH=${paths_list} \
+  PATH="${_interp_dir}:${PATH:-.}" \
   "${_interp}" "${_script}" ${@}
 
 # vim: ft=bash :
