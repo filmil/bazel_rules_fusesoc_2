@@ -107,7 +107,7 @@ fusesoc_repo = repository_rule(
         "libraries": attr.string_dict(),
         "cores": attr.string_list(),
         "fusesoc_url": attr.string(
-            default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/v0.1.1/fusesoc-bin-linux-amd64.zip",
+            default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/v0.3.0/fusesoc-bin-linux-amd64.zip",
         ),
     },
 )
