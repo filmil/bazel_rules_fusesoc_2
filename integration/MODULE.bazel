@@ -16,6 +16,13 @@ fusesoc_cores.library(
 fusesoc_cores.core(
   name = "blinky",
 )
+fusesoc_cores.library(
+  name = "muntjac",
+  url = "https://github.com/filmil/muntjac",
+)
+fusesoc_cores.core(
+  name = "lowrisc:muntjac:core",
+)
 use_repo(fusesoc_cores, "fusesoc_cores")
 
 

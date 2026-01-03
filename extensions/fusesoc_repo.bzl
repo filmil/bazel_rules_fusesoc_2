@@ -1,38 +1,11 @@
 
 def _impl(rctx):
-
     rctx.download_and_extract(
         url = rctx.attr.fusesoc_url,
         strip_prefix = "fusesoc",
     )
 
     fusesoc_path = "./bin/fusesoc.shar"
-
-    rctx.file("BUILD.bazel", content = """\
-package(default_visibility = ["//visibility:public"])
-
-exports_files(["build/**"])
-
-filegroup(
-    name = "config",
-    srcs = [
-        "fusesoc.conf",
-    ],
-)
-
-filegroup(
-    name = "libraries",
-    srcs = glob(
-        ["fusesoc_libraries/**"],
-        exclude = [ "**/.git/**"],
-    ),
-)
-
-filegroup(
-    name = "all",
-    srcs = glob(["**/*"], exclude = ["bin/**"]),
-)
-    """)
 
     result = rctx.execute(["pwd"])
     pwd = result.stdout.strip()
@@ -42,6 +15,7 @@ filegroup(
         "--cores-root={}".format(pwd),
         "--config={}/fusesoc.conf".format(pwd),
     ]
+
 
     for library, name in rctx.attr.libraries.items():
         cmdlineX = cmdline +            ["library",
@@ -84,6 +58,8 @@ filegroup(
         print("result", result.stderr)
         fail("oops")
 
+    rctx.execute(["bash", "-c", "find -name 'BUILD*' | xargs rm"])
+
     for core in rctx.attr.cores:
         result = rctx.execute(cmdline + [
             "run",
@@ -92,9 +68,36 @@ filegroup(
             core,
         ])
         if result.return_code:
-            print("run", core, result.stdout)
-            print("run", core, result.stderr)
+            print("run stdout:", core, result.stdout)
+            print("run stderr", core, result.stderr)
             fail("oops")
+
+    rctx.file("BUILD.bazel", content = """\
+package(default_visibility = ["//visibility:public"])
+
+exports_files(glob(["build/**", "fusesoc_libraries/**"]))
+
+filegroup(
+    name = "config",
+    srcs = [
+        "fusesoc.conf",
+    ],
+)
+
+filegroup(
+    name = "libraries",
+    srcs = glob(
+        ["fusesoc_libraries/**"],
+        exclude = [ "**/.git/**", "**/BUILD"],
+    ),
+)
+
+filegroup(
+    name = "all",
+    srcs = glob(["**/*"], exclude = ["bin/**", "**/BUILD"]),
+)
+    """)
+
 
 
 fusesoc_repo = repository_rule(
