@@ -121,24 +121,33 @@ filegroup(
         print("result", result.stderr)
         fail("oops")
 
-    print("found: ", result.stdout.strip().split('\n'))
+    loads = []
+    filegroups = [
+        'package(default_visibility = ["//visibility:public"])',
+    ]
+    last_core_name = None
     for eda_file in result.stdout.strip().split('\n'):
-        loads = []
-        filegroups = [
-            'package(default_visibility = ["//visibility:public"])',
-        ]
         eda_file_components = eda_file.split('/')
         tool = eda_file_components[-2]
         core_name = eda_file_components[-3]
-        print("tool/core", tool, core_name)
-        cmdline = [
-            edalize_read_path,
-            "--source", tool,
-            "--edafile", eda_file,
-            "--output", "{}.bzl".format(eda_file),
-        ]
+        print("tool/core: ", tool, core_name)
         safe_name = "{core_name}_{tool}".format(core_name=core_name,tool=tool).replace(
             '.', '_').replace('-', '_')
+
+        print("last_core_name: ", last_core_name)
+        print("core_name: ", core_name)
+        if last_core_name != core_name:
+            if last_core_name:
+                content = '\n'.join(loads + filegroups)
+                print("CONTENT", content)
+                rctx.file(
+                    "build/{core_name}/BUILD.bazel".format(core_name=last_core_name),
+                    content = '\n'.join(loads + filegroups),
+                )
+            loads = []
+            filegroups = [
+                'package(default_visibility = ["//visibility:public"])',
+            ]
 
         loads += [
             'load(":{tool}/{core_name}.eda.yml.bzl", _{safe_name}_SOURCES = "SOURCES")'.format(
@@ -148,17 +157,27 @@ filegroup(
         filegroups += ["""filegroup(name = "{safe_name}_srcs", srcs = _{safe_name}_SOURCES)
 """.format(safe_name=safe_name),
         ]
+
+        cmdline = [
+            edalize_read_path,
+            "--source", tool,
+            "--edafile", eda_file,
+            "--output", "{}.bzl".format(eda_file),
+        ]
         result = rctx.execute(cmdline)
         if result.return_code:
             print("result", result.stdout)
             print("result", result.stderr)
             fail("oops")
-        content = '\n'.join(loads + filegroups)
-        print("CONTENT: ", content)
-        #rctx.file(
-            #"build/{core_name}/BUILD.bazel".format(core_name=core_name),
-            #content = '\n'.join(loads + filegroups),
-        #)
+
+        last_core_name = core_name
+
+    content = '\n'.join(loads + filegroups)
+    print("CONTENT", content)
+    rctx.file(
+        "build/{core_name}/BUILD.bazel".format(core_name=core_name),
+        content = '\n'.join(loads + filegroups),
+    )
 
 
 fusesoc_repo = repository_rule(
@@ -167,7 +186,7 @@ fusesoc_repo = repository_rule(
         "repo_name": attr.string_list(),
         "libraries": attr.string_dict(),
         "cores": attr.string_list(),
-        "version": attr.string(default = "v0.7.2"),
+        "version": attr.string(default = "v0.7.3"),
         "fusesoc_url": attr.string(
             default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/{version}/fusesoc-bin-{os}-{arch}.zip",
         ),
