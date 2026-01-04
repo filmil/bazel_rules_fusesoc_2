@@ -90,8 +90,6 @@ def _impl(rctx):
     rctx.file("BUILD.bazel", content = """\
 package(default_visibility = ["//visibility:public"])
 
-exports_files(glob(["fusesoc_libraries/**"]))
-
 filegroup(
     name = "config",
     srcs = [
@@ -99,19 +97,7 @@ filegroup(
     ],
 )
 
-filegroup(
-    name = "libraries",
-    srcs = glob(
-        ["fusesoc_libraries/**"],
-        exclude = [ "**/.git/**", "**/BUILD"],
-    ),
-)
-
-filegroup(
-    name = "all",
-    srcs = glob(["**/*"], exclude = ["bin/**", "**/BUILD"]),
-)
-    """)
+""")
 
     edalize_read_path = "./bin/edalize_read"
 

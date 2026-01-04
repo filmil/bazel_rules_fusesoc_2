@@ -480,7 +480,7 @@
     },
     "@@rules_fusesoc+//extensions:fusesoc_cores.bzl%fusesoc_cores": {
       "general": {
-        "bzlTransitiveDigest": "VnhqUm0L26YK6PZSFwGhEZiLWJ3kMafRbxguQVWUj9o=",
+        "bzlTransitiveDigest": "Zq5JlLbm1Lh4+2AXZgdXjJ5ch+0cj103wQpveh+Atkw=",
         "usagesDigest": "IbEriYgTi+qbPbQQqiFUBEZPynJY7IenxgtYWitE4Ao=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
@@ -506,65 +506,6 @@
           }
         },
         "recordedRepoMappingEntries": []
-      }
-    },
-    "@@rules_go+//go:extensions.bzl%go_sdk": {
-      "general": {
-        "bzlTransitiveDigest": "1H1XlzslXcFtR1jdae05kHBs4nNN6lOsJowIEeYYBLY=",
-        "usagesDigest": "ap5Z/9fRn+n+ebdZaML+ssxZHsb1Evdi25SyuVSd0yw=",
-        "recordedFileInputs": {},
-        "recordedDirentsInputs": {},
-        "envVariables": {},
-        "generatedRepoSpecs": {
-          "go_default_sdk": {
-            "repoRuleId": "@@rules_go+//go/private:sdk.bzl%go_download_sdk_rule",
-            "attributes": {
-              "goos": "",
-              "goarch": "",
-              "sdks": {},
-              "urls": [
-                "https://dl.google.com/go/{}"
-              ],
-              "version": "1.20.2"
-            }
-          },
-          "go_host_compatible_sdk_label": {
-            "repoRuleId": "@@rules_go+//go/private:extensions.bzl%host_compatible_toolchain",
-            "attributes": {
-              "toolchain": "@go_default_sdk//:ROOT"
-            }
-          },
-          "go_toolchains": {
-            "repoRuleId": "@@rules_go+//go/private:sdk.bzl%go_multiple_toolchains",
-            "attributes": {
-              "prefixes": [
-                "_0000_go_default_sdk_"
-              ],
-              "geese": [
-                ""
-              ],
-              "goarchs": [
-                ""
-              ],
-              "sdk_repos": [
-                "go_default_sdk"
-              ],
-              "sdk_types": [
-                "remote"
-              ],
-              "sdk_versions": [
-                "1.20.2"
-              ]
-            }
-          }
-        },
-        "recordedRepoMappingEntries": [
-          [
-            "rules_go+",
-            "bazel_tools",
-            "bazel_tools"
-          ]
-        ]
       }
     },
     "@@rules_kotlin+//src/main/starlark/core/repositories:bzlmod_setup.bzl%rules_kotlin_extensions": {
