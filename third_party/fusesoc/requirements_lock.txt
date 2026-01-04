@@ -4,27 +4,17 @@
 #
 #    bazel run //third_party/fusesoc:requirements.update
 #
-argcomplete==3.6.3 \
-    --hash=sha256:62e8ed4fd6a45864acc8235409461b72c9a28ee785a2011cc5eb78318786c89c \
-    --hash=sha256:f5007b3a600ccac5d25bbce33089211dfd49eab4a7718da3f10e3082525a92ce
-    # via fusesoc
 attrs==25.4.0 \
     --hash=sha256:16d5969b87f0859ef33a48b35d55ac1be6e42ae49d5e853b597db70c35c57e11 \
     --hash=sha256:adcf7e2a1fb3b36ac48d97835bb6d8ade15b8dcce26aba8bf1d14847b57a3373
     # via simplesat
-edalize==0.6.1 \
-    --hash=sha256:2773339a404310b3b076ac8bcc68cadec8c937eba5a76c0a9b941064cd5ff9d7 \
-    --hash=sha256:6617b6b817d0445a7eaa003f2e7906f910b4ee659f9330ec6faeee633238536b
+edalize @ https://github.com/lowRISC/edalize/archive/refs/tags/v0.4.0.zip \
+    --hash=sha256:da816ef1040d8063d4aa7377ef1fea33f0bffeca1f79a68b7a8930ef9d90c7c8
     # via
     #   -r third_party/fusesoc/requirements.in
     #   fusesoc
-fastjsonschema==2.21.2 \
-    --hash=sha256:1c797122d0a86c5cace2e54bf4e819c36223b552017172f32c5c024a6b77e463 \
-    --hash=sha256:b1eb43748041c880796cd077f1a07c3d94e93ae84bba5ed36800a33554ae05de
-    # via fusesoc
-fusesoc==2.4.5 \
-    --hash=sha256:008fc9c512643fbfe2dc19ef9f543e12f4543c0b8135eefc1359f4e82ce69d8a \
-    --hash=sha256:5418c9ef0884cf8e35895aae2cc19a6ed7586cad3bf9db47634e71f10cdd48bf
+fusesoc @ https://github.com/lowRISC/fusesoc/archive/refs/tags/ot-0.5.dev0.zip \
+    --hash=sha256:6d1d9b202748d160bc6da70ea8cf7a700ca80e1e7e4a78cbc1ec039bde595c65
     # via -r third_party/fusesoc/requirements.in
 jinja2==3.1.6 \
     --hash=sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d \
