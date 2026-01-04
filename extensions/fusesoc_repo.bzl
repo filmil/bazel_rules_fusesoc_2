@@ -143,6 +143,14 @@ filegroup(
             """load(":{tool}/{core_name}.eda.yml.bzl",
     _{safe_name}_SOURCES = "SOURCES",
     _{safe_name}_HEADERS = "HEADERS",
+
+    _{safe_name}_SOURCES_PY = "SOURCES_PY",
+    _{safe_name}_SOURCES_XDC = "SOURCES_XDC",
+    _{safe_name}_SOURCES_SDC = "SOURCES_SDC",
+    _{safe_name}_SOURCES_TCL = "SOURCES_TCL",
+    _{safe_name}_SOURCES_UCF = "SOURCES_UCF",
+    _{safe_name}_SOURCES_LPF = "SOURCES_LPF",
+    _{safe_name}_SOURCES_PCF = "SOURCES_PCF",
     {safe_name}_INCLUDE_DIRS = "INCLUDE_DIRS",
 )
             """.format(
@@ -153,6 +161,18 @@ filegroup(
             """filegroup(name = "{safe_name}_srcs", srcs = _{safe_name}_SOURCES)
 """.format(safe_name=safe_name),
             """filegroup(name = "{safe_name}_hdrs", srcs = _{safe_name}_HEADERS)
+""".format(safe_name=safe_name),
+            """filegroup(name = "{safe_name}_srcs_py", srcs = _{safe_name}_SOURCES_PY)
+""".format(safe_name=safe_name),
+            """filegroup(name = "{safe_name}_srcs_xdc", srcs = _{safe_name}_SOURCES_XDC)
+""".format(safe_name=safe_name),
+            """filegroup(name = "{safe_name}_srcs_tcl", srcs = _{safe_name}_SOURCES_TCL)
+""".format(safe_name=safe_name),
+            """filegroup(name = "{safe_name}_srcs_ucf", srcs = _{safe_name}_SOURCES_UCF)
+""".format(safe_name=safe_name),
+            """filegroup(name = "{safe_name}_srcs_lpf", srcs = _{safe_name}_SOURCES_LPF)
+""".format(safe_name=safe_name),
+            """filegroup(name = "{safe_name}_srcs_pcf", srcs = _{safe_name}_SOURCES_PCF)
 """.format(safe_name=safe_name),
         ]
 
@@ -188,7 +208,7 @@ fusesoc_repo = repository_rule(
         "repo_name": attr.string_list(),
         "libraries": attr.string_dict(),
         "cores": attr.string_list(),
-        "version": attr.string(default = "v0.7.3"),
+        "version": attr.string(default = "v0.8.0"),
         "fusesoc_url": attr.string(
             default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/{version}/fusesoc-bin-{os}-{arch}.zip",
         ),
