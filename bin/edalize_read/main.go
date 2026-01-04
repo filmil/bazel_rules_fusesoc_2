@@ -33,6 +33,12 @@ SOURCES_PY = [
 	{{- end}}
 ]
 
+SOURCES_XDC = [
+	{{- range .FilesXdc}}
+	"{{.}}",
+	{{- end}}
+]
+
 HEADERS = [
 	{{- range .Headers}}
 	"{{.}}",
@@ -44,6 +50,38 @@ INCLUDE_DIRS = [
 	"{{.}}",
 	{{- end}}
 ]
+
+SOURCES_SDC = [
+	{{- range .FilesSdc}}
+	"{{.}}",
+	{{- end}}
+]
+
+SOURCES_TCL = [
+	{{- range .FilesTcl}}
+	"{{.}}",
+	{{- end}}
+]
+
+SOURCES_UCF = [
+	{{- range .FilesUcf}}
+	"{{.}}",
+	{{- end}}
+]
+
+SOURCES_LPF = [
+	{{- range .FilesLpf}}
+	"{{.}}",
+	{{- end}}
+]
+
+SOURCES_PCF = [
+	{{- range .FilesPcf}}
+	"{{.}}",
+	{{- end}}
+]
+
+
 `))
 )
 
@@ -57,11 +95,18 @@ type FlagValues struct {
 }
 
 type Output struct {
-	Filename    string   `json:"filename"`
-	Files       []string `json:"files"`
-	FilesPy     []string `json:"files_py"`
-	IncludeDirs []string `json:"include_dirs"`
-	Headers     []string `json:"headers"`
+	Filename    string
+	Files       []string
+	IncludeDirs []string
+	Headers     []string
+
+	FilesPy  []string
+	FilesXdc []string
+	FilesSdc []string
+	FilesTcl []string
+	FilesUcf []string
+	FilesLpf []string
+	FilesPcf []string
 }
 
 type File struct {
@@ -147,6 +192,18 @@ func main() {
 			headers = append(headers, fullPath)
 		} else if strings.HasSuffix(fullPath, ".py") {
 			out.FilesPy = append(out.FilesPy, fullPath)
+		} else if strings.HasSuffix(fullPath, ".xdc") {
+			out.FilesXdc = append(out.FilesXdc, fullPath)
+		} else if strings.HasSuffix(fullPath, ".sdc") {
+			out.FilesSdc = append(out.FilesSdc, fullPath)
+		} else if strings.HasSuffix(fullPath, ".tcl") {
+			out.FilesTcl = append(out.FilesTcl, fullPath)
+		} else if strings.HasSuffix(fullPath, ".ucf") {
+			out.FilesUcf = append(out.FilesUcf, fullPath)
+		} else if strings.HasSuffix(fullPath, ".lpf") {
+			out.FilesLpf = append(out.FilesLpf, fullPath)
+		} else if strings.HasSuffix(fullPath, ".pcf") {
+			out.FilesPcf = append(out.FilesPcf, fullPath)
 		} else {
 			edafiles = append(edafiles, fullPath)
 		}

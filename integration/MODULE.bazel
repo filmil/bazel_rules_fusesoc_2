@@ -7,11 +7,15 @@ local_path_override(
   path = "../",
 )
 fusesoc_cores = use_extension("@rules_fusesoc//extensions:fusesoc_cores.bzl", "fusesoc_cores")
+
 fusesoc_cores.library(name = "fusesoc-cores", url = "https://github.com/fusesoc/fusesoc-cores")
 fusesoc_cores.core(name = "fusesoc:utils:blinky:1.1")
+fusesoc_cores.core(name = "fusesoc:utils:blinky:1.1", tool = "vivado", target = "nexys_a7")
+
 fusesoc_cores.library(name = "muntjac", url = "https://github.com/filmil/muntjac")
 fusesoc_cores.core(name = "lowrisc:muntjac:core:0.1")
 fusesoc_cores.core(name = "lowrisc:muntjac:core:0.1", tool = "verilator")
+
 use_repo(fusesoc_cores, "fusesoc_cores")
 
 
