@@ -110,7 +110,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           allowUpdates: true
-          artifacts: "${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}.zip ${{ env.BINARY_NAME_2 }}-${{ matrix.os }}-${{ matrix.arch }}.zip"
+          artifacts: "${{ env.BINARY_NAME }}-${{ matrix.os }}-${{ matrix.arch }}.zip,${{ env.BINARY_NAME_2 }}-${{ matrix.os }}-${{ matrix.arch }}.zip"
           tag: ${{ steps.tag_version.outputs.previous_tag }}
 
   # This workflow waits for binary artifacts to be published.
