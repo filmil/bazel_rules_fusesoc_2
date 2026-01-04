@@ -123,7 +123,7 @@ filegroup(
 
     loads = []
     filegroups = [
-        'package(default_visibility = ["//visibility:public"])',
+        '\npackage(default_visibility = ["//visibility:public"])\n',
     ]
     last_core_name = None
     for eda_file in result.stdout.strip().split('\n'):
@@ -144,17 +144,29 @@ filegroup(
                     "build/{core_name}/BUILD.bazel".format(core_name=last_core_name),
                     content = '\n'.join(loads + filegroups),
                 )
+                rctx.file(
+                    "build/{core_name}/{core_name}.bzl".format(core_name=last_core_name),
+                    content = '\n'.join(loads),
+                )
             loads = []
             filegroups = [
-                'package(default_visibility = ["//visibility:public"])',
+                '\npackage(default_visibility = ["//visibility:public"])\n',
             ]
 
         loads += [
-            'load(":{tool}/{core_name}.eda.yml.bzl", _{safe_name}_SOURCES = "SOURCES")'.format(
+            """load(":{tool}/{core_name}.eda.yml.bzl",
+    _{safe_name}_SOURCES = "SOURCES",
+    _{safe_name}_HEADERS = "HEADERS",
+    {safe_name}_INCLUDE_DIRS = "INCLUDE_DIRS",
+)
+            """.format(
                 tool=tool, core_name=core_name, safe_name=safe_name,
             ),
         ]
-        filegroups += ["""filegroup(name = "{safe_name}_srcs", srcs = _{safe_name}_SOURCES)
+        filegroups += [
+            """filegroup(name = "{safe_name}_srcs", srcs = _{safe_name}_SOURCES)
+""".format(safe_name=safe_name),
+            """filegroup(name = "{safe_name}_hdrs", srcs = _{safe_name}_HEADERS)
 """.format(safe_name=safe_name),
         ]
 
@@ -177,6 +189,10 @@ filegroup(
     rctx.file(
         "build/{core_name}/BUILD.bazel".format(core_name=core_name),
         content = '\n'.join(loads + filegroups),
+    )
+    rctx.file(
+        "build/{core_name}/{core_name}.bzl".format(core_name=last_core_name),
+        content = '\n'.join(loads),
     )
 
 

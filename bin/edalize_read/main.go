@@ -27,6 +27,12 @@ SOURCES = [
 	{{- end}}
 ]
 
+SOURCES_PY = [
+	{{- range .FilesPy}}
+	"{{.}}",
+	{{- end}}
+]
+
 HEADERS = [
 	{{- range .Headers}}
 	"{{.}}",
@@ -53,6 +59,7 @@ type FlagValues struct {
 type Output struct {
 	Filename    string   `json:"filename"`
 	Files       []string `json:"files"`
+	FilesPy     []string `json:"files_py"`
 	IncludeDirs []string `json:"include_dirs"`
 	Headers     []string `json:"headers"`
 }
@@ -125,6 +132,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not parse edafile: %q: %v", args.edafile, err)
 	}
+	var out Output
+
 	var edafiles, headers, includeDirs []string
 	for _, file := range edaFile.Files {
 		var fullPath string
@@ -136,14 +145,14 @@ func main() {
 		if file.IsIncludeFile {
 			includeDirs = append(includeDirs, path.Dir(fullPath))
 			headers = append(headers, fullPath)
+		} else if strings.HasSuffix(fullPath, ".py") {
+			out.FilesPy = append(out.FilesPy, fullPath)
 		} else {
 			edafiles = append(edafiles, fullPath)
 		}
 	}
 
 	// Write output
-	var out Output
-
 	out.Filename = args.source
 	out.Files = edafiles
 	out.IncludeDirs = Unique(includeDirs)
