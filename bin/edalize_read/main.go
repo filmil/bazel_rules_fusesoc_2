@@ -93,9 +93,6 @@ func Unique(in []string) []string {
 }
 
 func main() {
-	// Work around the first arg.
-	os.Args = append(os.Args[0:0], os.Args[2:]...)
-
 	var args FlagValues
 	log.SetPrefix(fmt.Sprintf("%s: ", os.Args[0]))
 	flag.BoolVar(&args.notrace, "notrace", false, "")
@@ -106,7 +103,7 @@ func main() {
 	flag.Parse()
 
 	if args.source == "" {
-		log.Fatalf("no source file: %q", args.source)
+		log.Fatalf("flag --source is required")
 	}
 
 	f, err := os.Create(args.output)
