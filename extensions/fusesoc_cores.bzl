@@ -62,7 +62,7 @@ _core = tag_class(
         "command": attr.string(default = "run"),
         "tool": attr.string(default = "vivado"),
         "phase": attr.string(default = "--setup"),
-        "target": attr.string(),
+        "target": attr.string(default = "default"),
     }
 )
 
