@@ -147,6 +147,7 @@ filegroup(
     _{safe_name}_SOURCES_UCF = "SOURCES_UCF",
     _{safe_name}_SOURCES_LPF = "SOURCES_LPF",
     _{safe_name}_SOURCES_PCF = "SOURCES_PCF",
+    _{safe_name}_SOURCES_VLT = "SOURCES_VLT",
     {safe_name}_INCLUDE_DIRS = "INCLUDE_DIRS",
 )
             """.format(
@@ -169,6 +170,8 @@ filegroup(
             """filegroup(name = "{safe_name}_srcs_lpf", srcs = _{safe_name}_SOURCES_LPF)
 """.format(safe_name=safe_name),
             """filegroup(name = "{safe_name}_srcs_pcf", srcs = _{safe_name}_SOURCES_PCF)
+""".format(safe_name=safe_name),
+            """filegroup(name = "{safe_name}_srcs_vlt", srcs = _{safe_name}_SOURCES_VLT)
 """.format(safe_name=safe_name),
         ]
 
@@ -203,7 +206,7 @@ fusesoc_repo = repository_rule(
         "repo_name": attr.string_list(),
         "libraries": attr.string_dict(),
         "cores": attr.string_list(),
-        "version": attr.string(default = "v0.8.0"),
+        "version": attr.string(default = "v0.9.0"),
         "fusesoc_url": attr.string(
             default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/{version}/fusesoc-bin-{os}-{arch}.zip",
         ),
