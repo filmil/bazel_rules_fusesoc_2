@@ -481,7 +481,7 @@
     "@@rules_fusesoc+//extensions:fusesoc_cores.bzl%fusesoc_cores": {
       "general": {
         "bzlTransitiveDigest": "Zq5JlLbm1Lh4+2AXZgdXjJ5ch+0cj103wQpveh+Atkw=",
-        "usagesDigest": "IbEriYgTi+qbPbQQqiFUBEZPynJY7IenxgtYWitE4Ao=",
+        "usagesDigest": "o1FmG2Enm6pSonsOrlyyslnEWdZUoXjpsxyWG8lVM3k=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -499,6 +499,7 @@
               ],
               "cmdlines": [
                 "run --tool vivado --setup --target default fusesoc:utils:blinky:1.1",
+                "run --tool vivado --setup --target nexys_a7 fusesoc:utils:blinky:1.1",
                 "run --tool vivado --setup --target default lowrisc:muntjac:core:0.1",
                 "run --tool verilator --setup --target default lowrisc:muntjac:core:0.1"
               ]
