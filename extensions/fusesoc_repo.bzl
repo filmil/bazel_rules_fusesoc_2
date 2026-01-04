@@ -2,8 +2,20 @@
 def _impl(rctx):
     rctx.execute(["touch", "fusesoc.conf"])
     rctx.download_and_extract(
-        url = rctx.attr.fusesoc_url,
+        url = rctx.attr.fusesoc_url.format(
+            version = rctx.attr.version,
+            os = rctx.os.name,
+            arch = rctx.os.arch,
+        ),
         strip_prefix = "fusesoc",
+    )
+    rctx.download_and_extract(
+        url = rctx.attr.edalize_read_url.format(
+            version = rctx.attr.version,
+            os = rctx.os.name,
+            arch = rctx.os.arch,
+        ),
+        strip_prefix = "edalize_read",
     )
 
     fusesoc_path = "./bin/fusesoc.shar"
@@ -75,18 +87,6 @@ def _impl(rctx):
             print("run stderr", core, result.stderr)
             fail("oops")
 
-    for core in rctx.attr.cores:
-        result = rctx.execute(cmdline + [
-            "run",
-            "--setup",
-            "--tool", "vivado",
-            core,
-        ])
-        if result.return_code:
-            print("run stdout:", core, result.stdout)
-            print("run stderr", core, result.stderr)
-            fail("oops")
-
     rctx.file("BUILD.bazel", content = """\
 package(default_visibility = ["//visibility:public"])
 
@@ -113,6 +113,36 @@ filegroup(
 )
     """)
 
+    edalize_read_path = "./bin/edalize_read"
+
+    result = rctx.execute("find . -name *.eda.yml".split(' '))
+    if result.return_code:
+        print("result", result.stdout)
+        print("result", result.stderr)
+        fail("oops")
+
+    #print("found: ", result.stdout.strip().split('\n'))
+    #for eda_file in result.stdout.strip().split('\n'):
+        #print("eda_file: ", eda_file)
+        #cmdline = [
+            #edalize_read_path,
+            #"--source=unused",
+            #"--edafile={}".format(eda_file),
+            #"--output={}.bzl".format(eda_file),
+        #]
+        #print("cmdline: ", cmdline)
+        #result = rctx.execute(cmdline)
+        #if result.return_code:
+            #print("result", result.stdout)
+            #print("result", result.stderr)
+            #fail("oops")
+
+
+
+
+
+
+
 
 
 fusesoc_repo = repository_rule(
@@ -121,8 +151,12 @@ fusesoc_repo = repository_rule(
         "repo_name": attr.string_list(),
         "libraries": attr.string_dict(),
         "cores": attr.string_list(),
+        "version": attr.string(default = "v0.7.1"),
         "fusesoc_url": attr.string(
-            default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/v0.5.0/fusesoc-bin-linux-amd64.zip",
+            default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/{version}/fusesoc-bin-{os}-{arch}.zip",
+        ),
+        "edalize_read_url": attr.string(
+            default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/{version}/edalize_read-bin-{os}-{arch}.zip",
         ),
         "cmdlines": attr.string_list(
             default = [],
