@@ -81,6 +81,12 @@ SOURCES_PCF = [
 	{{- end}}
 ]
 
+SOURCES_VLT = [
+	{{- range .FilesVlt}}
+	"{{.}}",
+	{{- end}}
+]
+
 
 `))
 )
@@ -107,6 +113,7 @@ type Output struct {
 	FilesUcf []string
 	FilesLpf []string
 	FilesPcf []string
+	FilesVlt []string
 }
 
 type File struct {
@@ -204,6 +211,8 @@ func main() {
 			out.FilesLpf = append(out.FilesLpf, fullPath)
 		} else if strings.HasSuffix(fullPath, ".pcf") {
 			out.FilesPcf = append(out.FilesPcf, fullPath)
+		} else if strings.HasSuffix(fullPath, ".vlt") {
+			out.FilesVlt = append(out.FilesVlt, fullPath)
 		} else {
 			edafiles = append(edafiles, fullPath)
 		}
