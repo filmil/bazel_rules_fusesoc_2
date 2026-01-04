@@ -1,16 +1,19 @@
-load("//build:my_package_name.bzl", "name_part_from_command_line")
-load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
-load("@rules_python//python:pip.bzl", "compile_pip_requirements")
-load("@rules_python//python:defs.bzl", "py_binary")
 load(
     "@pypi//:requirements.bzl",
     "requirement",
 )
+load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
 load("@rules_shar//:macros.bzl", sh_binary = "shar_binary")
+load("//build:my_package_name.bzl", "name_part_from_command_line")
 
 compile_pip_requirements(
     name = "requirements",
-    extra_args = ["--allow-unsafe", "--resolver=backtracking"],
+    extra_args = [
+        "--allow-unsafe",
+        "--resolver=backtracking",
+    ],
     requirements_in = "requirements.in",
     requirements_txt = "requirements_lock.txt",
     # The requirements generator is broken, as it depends on system python even
@@ -23,13 +26,13 @@ py_binary(
     # `fusesoc` library in `deps`. This works locally for some reason, but
     # fails in github actions.
     name = "run_fusesoc",
-    srcs = [ "run_fusesoc.py" ],
+    srcs = ["run_fusesoc.py"],
+    visibility = ["//visibility:public"],
     deps = [
         requirement("fusesoc"),
         requirement("edalize"),
         requirement("mako"),
     ],
-    visibility = [ "//visibility:public" ],
 )
 
 sh_binary(
@@ -38,8 +41,8 @@ sh_binary(
         "fusesoc.bash",
     ],
     data = [
-        "@rules_python//python/bin:python",
         ":run_fusesoc",
+        "@rules_python//python/bin:python",
     ],
 )
 

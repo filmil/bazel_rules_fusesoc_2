@@ -1,7 +1,10 @@
+load("@gazelle//:def.bzl", "gazelle")
 load("@rules_shell//shell:sh_test.bzl", "sh_test")
 
 sh_test(
-  name = "tbd",
-  srcs = [ "test.bash" ],
-  size = "small",
+    name = "tbd",
+    size = "small",
+    srcs = ["test.bash"],
 )
+
+gazelle(name = "gazelle")

@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "edalize_read_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/filmil/bazel_rules_fusesoc/bin/edalize_read",
+    visibility = ["//visibility:private"],
+    deps = ["@in_gopkg_yaml_v3//:yaml_v3"],
+)
+
+go_binary(
+    name = "edalize_read",
+    embed = [":edalize_read_lib"],
+    visibility = ["//visibility:public"],
+)
