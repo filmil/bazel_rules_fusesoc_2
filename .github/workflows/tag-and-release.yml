@@ -11,7 +11,7 @@ env:
   ZIP_PACKAGE: "//third_party/fusesoc"
   BINARY_NAME: "bazel-bin/third_party/fusesoc/fusesoc-bin"
   ZIP_PACKAGE_2: "//bin/edalize_read"
-  BINARY_NAME: "bazel-bin/bin/edalize_read/edalize_read-bin"
+  BINARY_NAME_2: "bazel-bin/bin/edalize_read/edalize_read-bin"
 
 on:
   schedule:
