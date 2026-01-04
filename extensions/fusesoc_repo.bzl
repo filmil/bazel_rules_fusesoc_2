@@ -116,16 +116,12 @@ filegroup(
         eda_file_components = eda_file.split('/')
         tool = eda_file_components[-2]
         core_name = eda_file_components[-3]
-        print("tool/core: ", tool, core_name)
         safe_name = "{core_name}_{tool}".format(core_name=core_name,tool=tool).replace(
             '.', '_').replace('-', '_')
 
-        print("last_core_name: ", last_core_name)
-        print("core_name: ", core_name)
         if last_core_name != core_name:
             if last_core_name:
                 content = '\n'.join(loads + filegroups)
-                print("CONTENT", content)
                 rctx.file(
                     "build/{core_name}/BUILD.bazel".format(core_name=last_core_name),
                     content = '\n'.join(loads + filegroups),
@@ -191,7 +187,6 @@ filegroup(
         last_core_name = core_name
 
     content = '\n'.join(loads + filegroups)
-    print("CONTENT", content)
     rctx.file(
         "build/{core_name}/BUILD.bazel".format(core_name=core_name),
         content = '\n'.join(loads + filegroups),

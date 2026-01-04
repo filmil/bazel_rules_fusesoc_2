@@ -480,7 +480,7 @@
     },
     "@@rules_fusesoc+//extensions:fusesoc_cores.bzl%fusesoc_cores": {
       "general": {
-        "bzlTransitiveDigest": "Zq5JlLbm1Lh4+2AXZgdXjJ5ch+0cj103wQpveh+Atkw=",
+        "bzlTransitiveDigest": "1ZDGSBnDE2QFgqRZE2nOMj7ojKmMOa5II4OyfyFsswY=",
         "usagesDigest": "o1FmG2Enm6pSonsOrlyyslnEWdZUoXjpsxyWG8lVM3k=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
