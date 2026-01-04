@@ -6,23 +6,11 @@ local_path_override(
   module_name = "rules_fusesoc",
   path = "../",
 )
-fusesoc_cores = use_extension(
-  "@rules_fusesoc//extensions:fusesoc_cores.bzl",
-  "fusesoc_cores")
-fusesoc_cores.library(
-  name = "fusesoc-cores",
-  url = "https://github.com/fusesoc/fusesoc-cores",
-)
-fusesoc_cores.core(
-  name = "fusesoc:utils:blinky",
-)
-fusesoc_cores.library(
-  name = "muntjac",
-  url = "https://github.com/filmil/muntjac",
-)
-fusesoc_cores.core(
-  name = "lowrisc:muntjac:core",
-)
+fusesoc_cores = use_extension("@rules_fusesoc//extensions:fusesoc_cores.bzl", "fusesoc_cores")
+fusesoc_cores.library(name = "fusesoc-cores", url = "https://github.com/fusesoc/fusesoc-cores")
+fusesoc_cores.core(name = "fusesoc:utils:blinky")
+fusesoc_cores.library(name = "muntjac", url = "https://github.com/filmil/muntjac")
+fusesoc_cores.core(name = "lowrisc:muntjac:core")
 use_repo(fusesoc_cores, "fusesoc_cores")
 
 
