@@ -445,8 +445,8 @@
     },
     "@@rules_fusesoc+//extensions:fusesoc_cores.bzl%fusesoc_cores": {
       "general": {
-        "bzlTransitiveDigest": "R1+qLscbjYXDKERyDxzeZfXL13U2AcR+Q1ZnzHhshko=",
-        "usagesDigest": "lyscL4mTKXZtFn9M+qqiooFboXU6n2eUesZyxMg7eig=",
+        "bzlTransitiveDigest": "Ct/a/53mdGdurIw6HlSaj0Kt2ECFfcEKR2hGRWW1lt0=",
+        "usagesDigest": "9Pi3UvDLZUyKAgT7LzRM/cwiJjKv5bt0LlR1Ri0Z1x0=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -461,6 +461,11 @@
               "cores": [
                 "fusesoc:utils:blinky",
                 "lowrisc:muntjac:core"
+              ],
+              "cmdlines": [
+                "run --tool vivado --setup fusesoc:utils:blinky",
+                "run --tool vivado --setup lowrisc:muntjac:core",
+                "run --tool verilator --setup lowrisc:muntjac:core"
               ]
             }
           }
