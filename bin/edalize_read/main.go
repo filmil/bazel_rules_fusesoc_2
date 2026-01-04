@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"path/filepath"
 	"sort"
 	"strings"
 	"text/template"
@@ -126,7 +127,12 @@ func main() {
 	}
 	var edafiles, headers, includeDirs []string
 	for _, file := range edaFile.Files {
-		fullPath := strings.TrimPrefix(file.Name, "../")
+		var fullPath string
+		if strings.HasPrefix(file.Name, "../") {
+			fullPath = strings.TrimPrefix(file.Name, "../")
+		} else {
+			fullPath = filepath.Join(args.source, file.Name)
+		}
 		if file.IsIncludeFile {
 			includeDirs = append(includeDirs, path.Dir(fullPath))
 			headers = append(headers, fullPath)
