@@ -1,5 +1,6 @@
 
 def _impl(rctx):
+    rctx.execute(["touch", "fusesoc.conf"])
     rctx.download_and_extract(
         url = rctx.attr.fusesoc_url,
         strip_prefix = "fusesoc",
@@ -9,10 +10,11 @@ def _impl(rctx):
 
     result = rctx.execute(["pwd"])
     pwd = result.stdout.strip()
+    print("pwd:", pwd)
 
     cmdline = [
         str(fusesoc_path),
-        #"--cores-root={}".format(pwd),
+        "--cores-root={}".format(pwd),
         "--config={}/fusesoc.conf".format(pwd),
     ]
 
@@ -35,9 +37,14 @@ def _impl(rctx):
     if result.return_code:
         print("update:", result)
 
+    result = rctx.execute(["ls", "-laR"])
+    print("ls:", result.stdout)
+
+
     result = rctx.execute(cmdline + [
         "library", "list"
     ])
+    print("list: ", result.stdout)
     if result.return_code:
         print("list: ", result)
 
@@ -107,7 +114,7 @@ fusesoc_repo = repository_rule(
         "libraries": attr.string_dict(),
         "cores": attr.string_list(),
         "fusesoc_url": attr.string(
-            default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/v0.4.0/fusesoc-bin-linux-amd64.zip",
+            default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/v0.5.0/fusesoc-bin-linux-amd64.zip",
         ),
     },
 )
