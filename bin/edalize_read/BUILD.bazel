@@ -1,4 +1,5 @@
 load("@rules_go//go:def.bzl", "go_binary", "go_library")
+load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
 
 go_library(
     name = "edalize_read_lib",
@@ -12,4 +13,14 @@ go_binary(
     name = "edalize_read",
     embed = [":edalize_read_lib"],
     visibility = ["//visibility:public"],
+)
+
+pkg_zip(
+    name = "zip",
+    srcs = [
+        ":edalize_read",
+    ],
+    package_dir = "edalize_read/bin",
+    package_file_name = "edalize_read-bin-{name_part}.zip",
+    package_variables = "//third_party/fusesoc:name_part_from_command_line",
 )
