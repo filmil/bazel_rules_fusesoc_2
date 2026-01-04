@@ -445,8 +445,8 @@
     },
     "@@rules_fusesoc+//extensions:fusesoc_cores.bzl%fusesoc_cores": {
       "general": {
-        "bzlTransitiveDigest": "Brpp8akqfjjKg0ulCrwzeLwTQZ+kqWucSslGeJS5cU0=",
-        "usagesDigest": "hGlJG0e1zKUh1vvDgzRCGx8Xa6lcIG5U7L8wL2u3n8U=",
+        "bzlTransitiveDigest": "R1+qLscbjYXDKERyDxzeZfXL13U2AcR+Q1ZnzHhshko=",
+        "usagesDigest": "lyscL4mTKXZtFn9M+qqiooFboXU6n2eUesZyxMg7eig=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -459,7 +459,7 @@
                 "https://github.com/filmil/muntjac": "muntjac"
               },
               "cores": [
-                "blinky",
+                "fusesoc:utils:blinky",
                 "lowrisc:muntjac:core"
               ]
             }
