@@ -10,7 +10,6 @@ def _impl(rctx):
 
     result = rctx.execute(["pwd"])
     pwd = result.stdout.strip()
-    print("pwd:", pwd)
 
     cmdline = [
         str(fusesoc_path),
@@ -38,13 +37,11 @@ def _impl(rctx):
         print("update:", result)
 
     result = rctx.execute(["ls", "-laR"])
-    print("ls:", result.stdout)
 
 
     result = rctx.execute(cmdline + [
         "library", "list"
     ])
-    print("list: ", result.stdout)
     if result.return_code:
         print("list: ", result)
 
@@ -65,7 +62,18 @@ def _impl(rctx):
         print("result", result.stderr)
         fail("oops")
 
+    # Don't get confused about any cores that have BUILD files.
     rctx.execute(["bash", "-c", "find -name 'BUILD*' | xargs rm"])
+
+    for cmdline_fragment in rctx.attr.cmdlines:
+        cmdline_list = cmdline_fragment.split(' ')
+        cmdline_all = cmdline + cmdline_list
+        result = rctx.execute(cmdline_all)
+        if result.return_code:
+            print(cmdline_all)
+            print("run stdout:", core, result.stdout)
+            print("run stderr", core, result.stderr)
+            fail("oops")
 
     for core in rctx.attr.cores:
         result = rctx.execute(cmdline + [
@@ -115,6 +123,9 @@ fusesoc_repo = repository_rule(
         "cores": attr.string_list(),
         "fusesoc_url": attr.string(
             default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/v0.5.0/fusesoc-bin-linux-amd64.zip",
+        ),
+        "cmdlines": attr.string_list(
+            default = [],
         ),
     },
 )
