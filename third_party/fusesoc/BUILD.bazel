@@ -49,6 +49,7 @@ sh_binary(
 name_part_from_command_line(
     name = "name_part_from_command_line",
     build_setting_default = "@set_me@",
+    visibility = ["//visibility:public"],
 )
 
 pkg_zip(
