@@ -1,6 +1,10 @@
 module(name = "integration", version="0.0.0")
 
 
+bazel_dep(name = "rules_cc", version = "0.2.16")
+bazel_dep(name = "verilator", version = "5.036.bcr.3")
+
+
 bazel_dep(name = "rules_fusesoc", version = "0.0.0")
 local_path_override(
   module_name = "rules_fusesoc",
@@ -32,8 +36,22 @@ python.defaults(python_version = "3.11")
 python.toolchain(python_version = "3.11")
 
 
-bazel_dep(name = "verilator", version = "5.036.bcr.3")
 bazel_dep(name = "rules_verilator", version = "0.1.0")
 register_toolchains(
     "@rules_verilator//verilator:verilator_toolchain",
 )
+
+
+# Not using a hermetic toolchain, it does not fit on the storage available to
+# a default Github action runner.
+#bazel_dep(name = "toolchains_llvm", version = "1.5.0", dev_dependency = True)
+#llvm = use_extension(
+  #"@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm", dev_dependency = True)
+#llvm.toolchain(
+    #name = "llvm_toolchain",
+    #llvm_version = "20.1.4",
+#)
+#use_repo(llvm, "llvm_toolchain")
+
+#register_toolchains("@llvm_toolchain//:all", dev_dependency = True)
+

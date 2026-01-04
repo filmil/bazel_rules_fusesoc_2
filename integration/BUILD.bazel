@@ -1,6 +1,7 @@
 load("@i_pypi//:requirements.bzl", "requirement")
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
 load("@rules_verilator//verilog:defs.bzl", "verilog_library")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
 
 
 # This rule shows that `fusesoc` is indeed installed and working.
@@ -56,4 +57,17 @@ verilator_cc_library(
         "--x-initial fast",
     ],
 )
+
+
+# bazel run //:sim
+cc_binary(
+    name = "sim",
+    srcs = [
+        "main.cc",
+    ],
+    deps = [
+        ":lib",
+    ],
+)
+
 
