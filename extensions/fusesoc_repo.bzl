@@ -9,6 +9,7 @@ def _impl(rctx):
         ),
         strip_prefix = "fusesoc",
     )
+
     rctx.download_and_extract(
         url = rctx.attr.edalize_read_url.format(
             version = rctx.attr.version,
@@ -42,6 +43,12 @@ def _impl(rctx):
             print("result", library, result.stderr)
             fail("oops")
 
+    # Patch content here. Some cores are not meant to worn in stand-alone
+    # mode, so this is a place to fix that.
+    for patch in rctx.attr.patches:
+        rctx.patch(patch, rctx.attr.patch_strip)
+
+    # Update all libraries.
     result = rctx.execute(cmdline + [
         "library", "update"
     ])
@@ -214,6 +221,14 @@ fusesoc_repo = repository_rule(
             default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/{version}/edalize_read-bin-{os}-{arch}.zip",
         ),
         "cmdlines": attr.string_list(
+            default = [],
+        ),
+        "patch_strip": attr.int(
+            default = 1,
+            doc = "If patching the repo, this is the `--strip=...` parameter value",
+        ),
+        "patches": attr.label_list(
+            doc = "The patches to apply to the downloaded library",
             default = [],
         ),
     },

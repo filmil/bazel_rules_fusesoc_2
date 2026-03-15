@@ -5,12 +5,14 @@ def _impl(mctx):
     seen_cores = []
     seen_configs = []
     cmdlines = []
+    patches = []
     for module in mctx.modules:
         for library in module.tags.library:
             url = library.url
             if url in seen_libs.keys():
                 continue
             seen_libs |= {library.url: library.name}
+            patches += library.patches
 
         for core in module.tags.core:
             name = core.name
@@ -32,18 +34,22 @@ def _impl(mctx):
                 tool = core.tool,
                 phase = core.phase,
             )
+            if core.source_only:
+                # Let's check what to do here.
+                continue
             if core.target:
                 cmdline = "{} --target {target}".format(
                     cmdline, target = core.target)
             cmdline = "{} {core}".format(cmdline, core = core.name)
             cmdlines += [cmdline]
 
-
+    # Generate the fusesoc repo here.
     fusesoc_repo(
         name = "fusesoc_cores",
         libraries = seen_libs,
         cores = seen_cores,
         cmdlines = cmdlines,
+        patches = patches,
     )
 
 _library = tag_class(
@@ -54,7 +60,16 @@ _library = tag_class(
         "url": attr.string(
             mandatory = True,
         ),
+        "patch_strip": attr.int(
+            default = 1,
+            doc = "If patching the repo, this is the `--strip=...` parameter value",
+        ),
+        "patches": attr.label_list(
+            doc = "The patches to apply to the downloaded library",
+            default = [],
+        ),
     },
+
 )
 _core = tag_class(
     attrs = {
@@ -63,6 +78,10 @@ _core = tag_class(
         "tool": attr.string(default = "vivado"),
         "phase": attr.string(default = "--setup"),
         "target": attr.string(default = "default"),
+        "source_only": attr.bool(
+            default = False,
+            doc = "This library only has filesets, no defined targets. Do not attempt to build it.",
+        ),
     }
 )
 
