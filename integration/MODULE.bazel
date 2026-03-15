@@ -6,20 +6,24 @@ bazel_dep(name = "verilator", version = "5.036.bcr.3")
 
 
 bazel_dep(name = "rules_fusesoc", version = "0.0.0")
+# Remove local_path_override when using in actual projects.
 local_path_override(
   module_name = "rules_fusesoc",
   path = "../",
 )
 fusesoc_cores = use_extension("@rules_fusesoc//extensions:fusesoc_cores.bzl", "fusesoc_cores")
-
-fusesoc_cores.library(name = "fusesoc-cores", url = "https://github.com/fusesoc/fusesoc-cores")
+fusesoc_cores.library(name = "fusesoc-cores", url = "https://github.com/fusesoc/fusesoc-cores",
+    patch_strip = 1,
+    patches = [
+        "//third_party/fusesoc-cores:0001.patch",
+    ],)
 fusesoc_cores.core(name = "fusesoc:utils:blinky:1.1")
 fusesoc_cores.core(name = "fusesoc:utils:blinky:1.1", tool = "vivado", target = "nexys_a7")
-
+# ---
 fusesoc_cores.library(name = "muntjac", url = "https://github.com/filmil/muntjac")
 fusesoc_cores.core(name = "lowrisc:muntjac:core:0.1")
 fusesoc_cores.core(name = "lowrisc:muntjac:core:0.1", tool = "verilator")
-
+fusesoc_cores.core(name = "::uart16550:1.5.5-r1")
 use_repo(fusesoc_cores, "fusesoc_cores")
 
 
@@ -40,18 +44,4 @@ bazel_dep(name = "rules_verilator", version = "0.1.0")
 register_toolchains(
     "@rules_verilator//verilator:verilator_toolchain",
 )
-
-
-# Not using a hermetic toolchain, it does not fit on the storage available to
-# a default Github action runner.
-#bazel_dep(name = "toolchains_llvm", version = "1.5.0", dev_dependency = True)
-#llvm = use_extension(
-  #"@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm", dev_dependency = True)
-#llvm.toolchain(
-    #name = "llvm_toolchain",
-    #llvm_version = "20.1.4",
-#)
-#use_repo(llvm, "llvm_toolchain")
-
-#register_toolchains("@llvm_toolchain//:all", dev_dependency = True)
 
