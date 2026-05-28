@@ -1,5 +1,5 @@
 load("@bazel_skylib//lib:paths.bzl", "paths")
-load("@bazel_rules_bid//build:rules.bzl", "run_docker_cmd")
+load("@rules_bid//build:rules.bzl", "run_docker_cmd")
 
 
 CONTAINER = "filipfilmar/eda_tools:0.0"
@@ -156,7 +156,7 @@ fusesoc_run = rule(
             doc = "A dictionary of mounts to define for the run."
         ),
         "_script": attr.label(
-            default = Label("@bazel_rules_bid//build:docker_run"),
+            default = Label("@rules_bid//build:docker_run"),
             executable = True,
             cfg = "host",
         ),
