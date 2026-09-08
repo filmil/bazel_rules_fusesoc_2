@@ -1,12 +1,17 @@
 
 def _impl(rctx):
     rctx.execute(["touch", "fusesoc.conf"])
+    # Both binaries come from a release of this repository, pinned by version
+    # and checksum. A repository rule cannot run a binary Bazel has yet to
+    # build, so the FuseSoC that resolves cores at fetch time is the one the
+    # release workflow built from the same pinned requirements.
     rctx.download_and_extract(
         url = rctx.attr.fusesoc_url.format(
             version = rctx.attr.version,
             os = rctx.os.name,
             arch = rctx.os.arch,
         ),
+        sha256 = rctx.attr.fusesoc_sha256,
         strip_prefix = "fusesoc",
     )
 
@@ -16,6 +21,7 @@ def _impl(rctx):
             os = rctx.os.name,
             arch = rctx.os.arch,
         ),
+        sha256 = rctx.attr.edalize_read_sha256,
         strip_prefix = "edalize_read",
     )
 
@@ -213,12 +219,23 @@ fusesoc_repo = repository_rule(
         "repo_name": attr.string_list(),
         "libraries": attr.string_dict(),
         "cores": attr.string_list(),
-        "version": attr.string(default = "v0.9.0"),
+        "version": attr.string(
+            default = "v1.0.7",
+            doc = "The release of this repository whose binaries are used.",
+        ),
         "fusesoc_url": attr.string(
             default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/{version}/fusesoc-bin-{os}-{arch}.zip",
         ),
+        "fusesoc_sha256": attr.string(
+            default = "b17b81c03a171cb9df52eb76395bd7a278e05cf460254ce5e108d9d4e405bade",
+            doc = "SHA-256 of the fusesoc archive at `version`, linux amd64.",
+        ),
         "edalize_read_url": attr.string(
             default = "https://github.com/filmil/bazel_rules_fusesoc_2/releases/download/{version}/edalize_read-bin-{os}-{arch}.zip",
+        ),
+        "edalize_read_sha256": attr.string(
+            default = "d3e5ec3aa940985d63b59d332f4959c233b1766b4e3b15f2f63789dc0e559283",
+            doc = "SHA-256 of the edalize_read archive at `version`, linux amd64.",
         ),
         "cmdlines": attr.string_list(
             default = [],

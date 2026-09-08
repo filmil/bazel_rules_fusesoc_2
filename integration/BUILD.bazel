@@ -2,6 +2,7 @@ load("@i_pypi//:requirements.bzl", "requirement")
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
 load("@rules_verilator//verilog:defs.bzl", "verilog_library")
 load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_fusesoc//build:fusesoc_run.bzl", "fusesoc_run")
 
 
 # This rule shows that `fusesoc` is indeed installed and working.
@@ -70,4 +71,26 @@ cc_binary(
     ],
 )
 
+
+
+
+# fusesoc_run, end to end and without a container. The core lives in this
+# repository, so the example depends on nothing being fetched.
+filegroup(
+    name = "hello_core_files",
+    srcs = glob(["cores/hello/*"]),
+)
+
+# --setup asks FuseSoC to resolve the core and write edalize's project
+# files, and starts no tool. This is what proves FuseSoC itself runs in the
+# sandbox. A --build example with a simulator from the registry is https://github.com/filmil/bazel_rules_fusesoc_2/issues/35.
+fusesoc_run(
+    name = "hello_setup",
+    cores_root = "cores/hello/hello.core",
+    cores_input = ":hello_core_files",
+    stage_flag = "--setup",
+    systems = ["example:util:hello:1.0"],
+    target = "sim",
+    tool = "verilator",
+)
 
