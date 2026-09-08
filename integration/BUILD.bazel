@@ -1,6 +1,6 @@
 load("@i_pypi//:requirements.bzl", "requirement")
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
-load("@rules_verilator//verilog:defs.bzl", "verilog_library")
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 load("@rules_cc//cc:defs.bzl", "cc_binary")
 load("@rules_fusesoc//build:fusesoc_run.bzl", "fusesoc_run")
 
@@ -54,6 +54,13 @@ verilator_cc_library(
     trace = True,  # Enable waveform tracing
     vopts = [
         "-Wall",
+        # blinky sizes its counter from clk_freq_hz, whose default is 0, and
+        # verilator 5.046 refuses the resulting [-1:0] range.
+        "-Gclk_freq_hz=50000000",
+        # blinky is a third-party core with lint findings (PROCASSINIT,
+        # WIDTHEXPAND) that verilator 5.046 makes fatal under -Wall. Keep
+        # the warnings, drop the exit status.
+        "-Wno-fatal",
         "--x-assign fast",
         "--x-initial fast",
     ],
