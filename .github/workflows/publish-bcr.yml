@@ -1,0 +1,43 @@
+# Publishes a release to the Bazel Central Registry, with attestation, as a
+# pull request from the fork filmil/bazel-central-registry. Called from
+# tag-and-release.yml after the publish to filmil/bazel-registry, and by hand
+# for a tag that is already released.
+name: "Publish to the Bazel Central Registry"
+
+on:
+  workflow_call:
+    secrets:
+      BCR_PUBLISH_TOKEN:
+        required: true
+    inputs:
+      tag_name:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Tag to publish"
+        required: true
+        type: string
+
+jobs:
+  publish:
+    uses: "bazel-contrib/publish-to-bcr/.github/workflows/publish.yaml@v1.5.0"
+    with:
+      tag_name: ${{ inputs.tag_name }}
+      registry: bazelbuild/bazel-central-registry
+      registry_fork: filmil/bazel-central-registry
+      # This publish attests MODULE.bazel and source.json, and BCR's presubmit
+      # verifies them against publish-to-bcr's builder id. The source archive
+      # was attested by release_ruleset.yaml when the release was made.
+      attest: true
+      # publish-to-bcr defaults this to true, as a workaround for an author
+      # not being able to approve their own pull request. The entry should be
+      # ready for review as soon as it is opened.
+      draft: false
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    secrets:
+      publish_token: ${{ secrets.BCR_PUBLISH_TOKEN }}

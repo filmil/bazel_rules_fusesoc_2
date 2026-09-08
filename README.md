@@ -3,6 +3,7 @@
 [![Test](https://github.com/filmil/bazel_rules_fusesoc_2/actions/workflows/test.yml/badge.svg)](https://github.com/filmil/bazel_rules_fusesoc_2/actions/workflows/test.yml)
 [![Tag and Release](https://github.com/filmil/bazel_rules_fusesoc_2/actions/workflows/tag-and-release.yml/badge.svg)](https://github.com/filmil/bazel_rules_fusesoc_2/actions/workflows/tag-and-release.yml)
 [![Publish to my Bazel registry](https://github.com/filmil/bazel_rules_fusesoc_2/actions/workflows/publish.yml/badge.svg)](https://github.com/filmil/bazel_rules_fusesoc_2/actions/workflows/publish.yml)
+[![Publish to the Bazel Central Registry](https://github.com/filmil/bazel_rules_fusesoc_2/actions/workflows/publish-bcr.yml/badge.svg)](https://github.com/filmil/bazel_rules_fusesoc_2/actions/workflows/publish-bcr.yml)
 
 For the time being, tis is a demo only. Don't read too much into it.
 
