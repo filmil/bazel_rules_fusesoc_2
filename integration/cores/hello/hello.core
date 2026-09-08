@@ -1,0 +1,27 @@
+CAPI=2:
+name: example:util:hello:1.0
+description: A counter and a testbench that prints when it wraps.
+
+filesets:
+  rtl:
+    files:
+      - hello.v
+    file_type: verilogSource
+  tb:
+    files:
+      - hello_tb.v
+    file_type: verilogSource
+
+targets:
+  default:
+    filesets: [rtl]
+    toplevel: hello
+  sim:
+    default_tool: icarus
+    filesets: [rtl, tb]
+    toplevel: hello_tb
+    tools:
+      icarus:
+        iverilog_options: [-g2012]
+      verilator:
+        mode: cc
