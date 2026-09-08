@@ -1,8 +1,21 @@
 module(name = "integration", version="0.0.0")
 
 
-bazel_dep(name = "rules_cc", version = "0.2.16")
-bazel_dep(name = "verilator", version = "5.036.bcr.3")
+bazel_dep(name = "rules_cc", version = "0.2.22")
+
+# The C++ toolchain that builds verilator and the simulation. Registered
+# here because this is a root module of its own; a toolchain the parent
+# module registers as a dev dependency does not reach it.
+bazel_dep(name = "hermetic_cc_toolchain", version = "4.3.0")
+
+zig = use_extension("@hermetic_cc_toolchain//toolchain:ext.bzl", "toolchains")
+use_repo(zig, "zig_sdk")
+
+register_toolchains(
+    "@zig_sdk//toolchain/...",
+    "@zig_sdk//libc_aware/toolchain/...",
+)
+bazel_dep(name = "verilator", version = "5.046.bcr.5")
 
 
 bazel_dep(name = "rules_fusesoc", version = "0.0.0")
@@ -27,7 +40,7 @@ fusesoc_cores.core(name = "::uart16550:1.5.5-r1")
 use_repo(fusesoc_cores, "fusesoc_cores")
 
 
-bazel_dep(name = "rules_python", version = "1.6.3")
+bazel_dep(name = "rules_python", version = "2.3.3")
 pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
 pip.parse(
     hub_name = "i_pypi",
@@ -40,7 +53,9 @@ python.defaults(python_version = "3.11")
 python.toolchain(python_version = "3.11")
 
 
-bazel_dep(name = "rules_verilator", version = "0.1.0")
+bazel_dep(name = "rules_verilator", version = "1.1.2")
+# verilog_library moved here in rules_verilator 1.x.
+bazel_dep(name = "rules_verilog", version = "1.4.2")
 register_toolchains(
     "@rules_verilator//verilator:verilator_toolchain",
 )
